@@ -12,7 +12,11 @@ A simple well-structured time tracking application for managing projects and tas
 - **Language**: [TypeScript](https://www.typescriptlang.org/), [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 - **Package Manager**: [pnpm](https://pnpm.io/)
 
-![Timestamp Tracker](public/og.png)
+## Live demo
+
+https://timestamp-tracker.vercel.app/
+
+https://github.com/user-attachments/assets/57f87b85-d8fb-4391-b76b-42968d1b0a5c
 
 ## Features
 
