@@ -1,0 +1,15 @@
+@import 'tailwindcss' theme(static);
+@import '@nuxt/ui';
+
+@theme {
+  --font-sans: 'Public Sans', sans-serif;
+}
+
+body {
+  @apply bg-gray-100;
+  font-family: 'Public Sans', sans-serif;
+}
+
+.task-row-hover:hover {
+  @apply bg-gray-50;
+}
