@@ -1,22 +1,21 @@
 <template>
-  <div
-    v-if="activeTask"
-    class="mb-6 p-5 bg-gradient-to-r from-primary-50 to-primary-200 border border-primary-200 rounded-lg shadow-sm"
-  >
+  <div v-if="activeTask" class="active-timer-card-gradient">
     <div
-      class="flex flex-col md:flex-row items-center md:justify-between gap-4"
+      class="flex flex-col md:flex-row items-center md:justify-between gap-3 sm:gap-4"
     >
       <!-- Task information -->
-      <div class="flex items-start gap-3">
-        <div>
-          <h3 class="font-semibold text-primary-700 mb-1">
+      <div class="flex items-start gap-3 w-full md:w-auto">
+        <div class="flex-1 min-w-0">
+          <h3 class="font-semibold text-primary-700 mb-1 truncate">
             {{ activeTask.title }}
           </h3>
-          <div class="flex items-center text-sm text-gray-600 gap-2">
-            <span class="font-medium text-primary-600">
+          <div
+            class="flex flex-wrap items-center text-sm text-gray-600 gap-1 sm:gap-2"
+          >
+            <span class="font-medium text-primary-600 truncate">
               {{ getProjectName(activeTask.projectId) }}
             </span>
-            <span class="text-gray-400">•</span>
+            <span class="text-gray-400 hidden sm:inline">•</span>
             <div class="flex items-center gap-1">
               <UIcon
                 :name="
@@ -24,56 +23,66 @@
                     ? 'i-heroicons-pause-circle'
                     : 'i-heroicons-play-circle'
                 "
+                class="flex-shrink-0"
               />
-              <span v-if="timerStore.isPaused">
-                Paused at {{ formattedPausedTime }}
+              <span class="whitespace-nowrap">
+                {{ timerStore.isPaused ? 'Paused at' : 'Started at' }}
+                {{
+                  timerStore.isPaused ? formattedPausedTime : formattedStartTime
+                }}
               </span>
-              <span v-else> Started at {{ formattedStartTime }} </span>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Timer and controls -->
-      <div class="flex items-center gap-4">
+      <div
+        class="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto"
+      >
         <div
-          class="text-2xl font-mono font-medium text-primary-800 bg-white py-2 px-4 rounded-lg shadow-inner"
+          class="text-xl sm:text-2xl font-mono font-medium text-primary-800 bg-white py-1 sm:py-2 px-3 sm:px-4 rounded-lg shadow-inner w-full text-center sm:w-auto"
         >
           {{ activeTaskDuration }}
         </div>
-        <div class="flex gap-2">
+        <div class="flex gap-2 w-full sm:w-auto">
           <!-- Conditional button based on paused state -->
           <UButton
             v-if="timerStore.isPaused"
             icon="i-heroicons-play"
             color="success"
-            size="md"
+            size="sm"
             variant="soft"
             class="shadow-sm hover:shadow transition-all duration-200"
             @click="resumeActiveTask"
           >
-            Resume
+            <span class="sm:hidden">Resume</span>
+            <span class="hidden sm:inline">Resume</span>
           </UButton>
           <UButton
             v-else
+            block
             icon="i-heroicons-pause-solid"
             color="warning"
-            size="md"
+            size="sm"
             variant="soft"
             class="shadow-sm hover:shadow transition-all duration-200"
             @click="pauseActiveTask"
           >
-            Pause
+            <span class="sm:hidden">Pause</span>
+            <span class="hidden sm:inline">Pause</span>
           </UButton>
           <UButton
+            block
             icon="i-heroicons-stop-solid"
             color="error"
-            size="md"
+            size="sm"
             variant="soft"
             class="shadow-sm hover:shadow transition-all duration-200"
             @click="stopActiveTask"
           >
-            Stop
+            <span class="sm:hidden">Stop</span>
+            <span class="hidden sm:inline">Stop</span>
           </UButton>
         </div>
       </div>

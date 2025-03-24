@@ -1,26 +1,30 @@
 <template>
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-    <!-- Loop through filters array -->
-    <USelectMenu
-      v-for="filter in filters"
-      :key="filter.name"
-      v-model="filter.value"
-      :items="filter.options"
-      value-key="value"
-      label-key="label"
-      :placeholder="filter.placeholder"
-      class="w-full"
-      @update:model-value="updateFilter(filter.name, $event)"
-    />
+  <div class="flex flex-col md:flex-row gap-4 mb-6">
+    <!-- Filter selects - will grow equally -->
+    <div v-for="filter in filters" :key="filter.name" class="flex-1 min-w-0">
+      <USelectMenu
+        v-model="filter.value"
+        :items="filter.options"
+        value-key="value"
+        label-key="label"
+        :placeholder="filter.placeholder"
+        class="w-full"
+        @update:model-value="updateFilter(filter.name, $event)"
+      />
+    </div>
 
-    <div class="flex items-center">
+    <!-- Reset button - same width as other elements -->
+    <div class="">
       <UButton
         color="neutral"
         variant="soft"
         size="sm"
         icon="i-heroicons-x-mark"
-        :class="{ 'opacity-50 cursor-not-allowed': !hasActiveFilters }"
-        class="w-full md:w-auto"
+        :class="{
+          'opacity-50 cursor-not-allowed': !hasActiveFilters,
+          'justify-center md:justify-start': true,
+        }"
+        class="w-full"
         :disabled="!hasActiveFilters"
         @click="resetFilters"
       >

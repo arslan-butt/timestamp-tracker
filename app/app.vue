@@ -1,8 +1,6 @@
 <template>
   <UApp>
-    <div class="flex justify-center items-center pt-4">
-      <Socials />
-    </div>
+    <LayoutHeader />
     <NuxtPage />
   </UApp>
 </template>

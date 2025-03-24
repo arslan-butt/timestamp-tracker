@@ -1,14 +1,14 @@
 <template>
   <UModal v-model:open="open" title="Add New Timestamp" description="">
     <div
-      class="border border-dashed border-gray-300 rounded-lg p-4 my-6 hover:bg-gray-50"
+      class="border border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-4 my-6 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-150"
     >
       <UButton
         block
         color="neutral"
         icon="i-heroicons-plus-circle"
         variant="ghost"
-        class="hover:bg-gray-50"
+        class="hover:!bg-gray-100 dark:hover:!bg-gray-800"
       >
         Add New Timestamp
       </UButton>

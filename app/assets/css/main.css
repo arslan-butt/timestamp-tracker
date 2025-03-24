@@ -6,10 +6,21 @@
 }
 
 body {
-  @apply bg-gray-100;
+  @apply bg-gray-100 dark:bg-gray-900;
   font-family: 'Public Sans', sans-serif;
 }
 
 .task-row-hover:hover {
   @apply bg-gray-50;
+}
+
+.active-timer-card-gradient {
+  @apply mb-6 p-4 sm:p-5 rounded-lg shadow-sm;
+  @apply bg-gradient-to-r from-primary-50 to-primary-200;
+  @apply border border-primary-200;
+
+  /* Dark mode styles */
+  @apply dark:from-primary-900/30 dark:to-primary-800/30;
+  @apply dark:border-primary-700;
+  @apply dark:shadow-sm dark:shadow-primary-900/20;
 }

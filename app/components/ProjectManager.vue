@@ -3,7 +3,9 @@
     <template #body>
       <div class="space-y-6">
         <!-- New Project Form -->
-        <UCard class="bg-neutral-50 border-neutral-100">
+        <UCard
+          class="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800"
+        >
           <UForm class="space-y-4" :state="state" @submit="addProject">
             <div class="flex items-center gap-2">
               <UFormField label="New Project" class="flex-1">
@@ -53,7 +55,7 @@
             <div
               v-for="project in projects"
               :key="project.id"
-              class="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:border-primary-200 hover:bg-gray-50 transition-all duration-200 group shadow-sm"
+              class="flex items-center justify-between p-3 border border-gray-200 dark:border-gray-800 rounded-lg hover:border-primary-200 dark:hover:border-primary-800 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 group shadow-sm"
             >
               <!-- Color indicator -->
               <div class="flex items-center gap-3 flex-1 min-w-0">
@@ -76,18 +78,25 @@
                   </div>
                   <div v-else class="flex items-center justify-between gap-2">
                     <div>
-                      <div class="font-medium truncate">{{ project.name }}</div>
                       <div
-                        class="text-xs text-gray-500 flex items-center gap-1"
+                        class="font-medium truncate text-gray-900 dark:text-white"
+                      >
+                        {{ project.name }}
+                      </div>
+                      <div
+                        class="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1"
                       >
                         <UIcon name="i-heroicons-calendar-days" />
                         {{ project.date }}
                         <span class="px-1">•</span>
                         <span
                           :class="{
-                            'text-blue-500': project.status === 'In Progress',
-                            'text-green-500': project.status === 'Done',
-                            'text-orange-500': project.status === 'Overtime',
+                            'text-blue-500 dark:text-blue-400':
+                              project.status === 'In Progress',
+                            'text-green-500 dark:text-green-400':
+                              project.status === 'Done',
+                            'text-orange-500 dark:text-orange-400':
+                              project.status === 'Overtime',
                           }"
                         >
                           {{ project.status }}
@@ -125,7 +134,7 @@
                 <UTooltip text="Delete project">
                   <UButton
                     icon="i-heroicons-trash"
-                    color="error"
+                    color="red"
                     variant="ghost"
                     size="xs"
                     @click="confirmDelete(project)"
@@ -137,29 +146,15 @@
         </div>
 
         <!-- Empty state -->
-        <div v-if="!projects.length" class="text-center p-8 text-gray-500">
-          <UIcon name="i-heroicons-folder-open" />
-          <p>No projects yet. Create your first project above.</p>
+        <div
+          v-if="!projects.length"
+          class="text-center p-8 text-gray-500 dark:text-gray-400"
+        >
+          <UIcon name="i-heroicons-folder-open" class="w-6 h-6 mx-auto" />
+          <p class="mt-2">No projects yet. Create your first project above.</p>
         </div>
       </div>
     </template>
-
-    <!-- Modal footer -->
-    <!-- <template #footer>
-      <div class="flex justify-between w-full">
-        <UButton color="neutral" variant="ghost" @click="isOpen = false">
-          Close
-        </UButton>
-        <UButton
-          v-if="projects.length"
-          icon="i-heroicons-arrow-path"
-          color="primary"
-          variant="soft"
-        >
-          Refresh
-        </UButton>
-      </div>
-    </template> -->
   </UModal>
 
   <!-- Confirmation dialog -->
@@ -168,12 +163,12 @@
       <UAlert
         title="Delete Project!"
         :description="`Are you sure you want to delete '${projectToDelete?.name}'? This will remove all tasks associated with this project.`"
-        color="neutral"
+        color="red"
         variant="outline"
         :actions="[
           {
             label: 'Cancel',
-            color: 'neutral',
+            color: 'gray',
             variant: 'subtle',
             onClick: () => {
               showDeleteConfirm = false;
@@ -181,7 +176,7 @@
           },
           {
             label: 'Delete',
-            color: 'neutral',
+            color: 'red',
             variant: 'solid',
             onClick: () => {
               handleDelete();

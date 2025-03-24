@@ -1,109 +1,125 @@
 <template>
-  <div
-    class="border border-gray-200 rounded-lg overflow-hidden"
-    :class="{ 'ring-1 ring-primary-300': hasActiveTask }"
+  <UCard
+    :ui="{
+      root: ` ${
+        hasActiveTask ? 'ring-1 ring-primary-300 dark:ring-primary-500 ' : ''
+      }`,
+      header: `p-4 sm:px-6 bg-gray-50 dark:bg-gray-800 rounded-[calc(var(--ui-radius)*2)] ${
+        expanded ? 'rounded-b-none' : ''
+      }`,
+    }"
   >
-    <!-- Header section -->
-    <div
-      class="flex items-center justify-between p-4 bg-gray-50 border-b border-b-gray-200"
-    >
-      <div class="flex items-center gap-2">
-        <UIcon name="i-heroicons-calendar" class="text-gray-500" />
-        <span class="font-medium">{{ project.date }}</span>
-        <UBadge :color="getBadgeColor(project.status)" variant="soft" size="sm">
-          {{ project.status }}
-        </UBadge>
-        <UBadge :color="project.color" variant="soft" size="sm">
-          {{ project.name }}
-        </UBadge>
+    <template #header>
+      <div class="flex items-center justify-between w-full">
+        <div class="flex items-center gap-2 flex-wrap">
+          <UIcon
+            name="i-heroicons-calendar"
+            class="text-gray-500 dark:text-gray-400"
+          />
+          <span class="font-medium dark:text-gray-200">{{ project.date }}</span>
+          <UBadge
+            :color="getBadgeColor(project.status)"
+            variant="soft"
+            size="sm"
+          >
+            {{ project.status }}
+          </UBadge>
+          <UBadge :color="project.color" variant="soft" size="sm">
+            {{ project.name }}
+          </UBadge>
+        </div>
+        <div class="flex items-center gap-2">
+          <UIcon
+            name="i-heroicons-clock"
+            class="text-gray-500 dark:text-gray-400"
+            :class="{ 'animate-spin': hasActiveTask }"
+          />
+          <span class="font-medium dark:text-gray-200">
+            {{ project.duration }}
+          </span>
+          <UButton
+            icon="i-heroicons-trash"
+            color="neutral"
+            variant="ghost"
+            size="xs"
+            @click="deleteProject(project.id)"
+          />
+          <UButton
+            :icon="
+              expanded ? 'i-heroicons-chevron-up' : 'i-heroicons-chevron-down'
+            "
+            color="neutral"
+            variant="ghost"
+            size="xs"
+            @click="expanded = !expanded"
+          />
+        </div>
       </div>
-      <div class="flex items-center gap-2">
-        <UIcon
-          name="i-heroicons-clock"
-          class="text-gray-500"
-          :class="{ 'animate-spin': hasActiveTask }"
-        />
-
-        <span class="font-medium">{{ project.duration }}</span>
-
-        <UButton
-          icon="i-heroicons-trash"
-          color="neutral"
-          variant="ghost"
-          size="xs"
-          @click="deleteProject(project.id)"
-        />
-
-        <UButton
-          :icon="
-            expanded ? 'i-heroicons-chevron-up' : 'i-heroicons-chevron-down'
-          "
-          color="neutral"
-          variant="ghost"
-          size="xs"
-          @click="expanded = !expanded"
-        />
-      </div>
-    </div>
+    </template>
 
     <!-- Tasks section -->
-    <div v-if="expanded" class="p-4 space-y-2">
-      <h4 class="font-medium mb-2">Task(s)</h4>
-      <div
-        v-for="task in tasks"
-        :key="task.id"
-        class="p-2 first:pt-0 border border-gray-200 rounded-lg bg-gray-50"
-      >
-        <div class="flex items-center justify-between">
-          <p class="font-medium">{{ task.title }}</p>
 
-          <div class="flex items-center gap-2">
-            <span class="text-gray-600">{{ task.duration }}</span>
-
-            <!-- Timer controls -->
-            <div class="flex items-center gap-1">
-              <UButton
-                v-if="isActiveTask(task.id) && !timerStore.isPaused"
-                icon="i-heroicons-pause-circle-solid"
-                color="warning"
-                variant="ghost"
-                size="xs"
-                @click="pauseTask"
-              />
-              <UButton
-                v-else-if="isActiveTask(task.id) && timerStore.isPaused"
-                icon="i-heroicons-play-circle-solid"
-                color="success"
-                variant="ghost"
-                size="xs"
-                @click="startTask(task.id)"
-              />
-              <UButton
-                v-else
-                icon="i-heroicons-play-circle-solid"
-                color="neutral"
-                variant="ghost"
-                size="xs"
-                :disabled="hasActiveTaskOtherThan(task.id)"
-                @click="startTask(task.id)"
-              />
-              <UButton
-                icon="i-heroicons-stop-circle-solid"
-                color="error"
-                variant="ghost"
-                size="xs"
-                :disabled="!isActiveTask(task.id)"
-                @click="stopTask"
-              />
+    <template v-if="expanded" #footer>
+      <div class="space-y-2">
+        <h4 class="font-medium mb-2 dark:text-gray-200">Task(s)</h4>
+        <div
+          v-for="task in tasks"
+          :key="task.id"
+          class="p-2 first:pt-0 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-800"
+        >
+          <div class="flex items-center justify-between">
+            <p class="font-medium dark:text-gray-200">{{ task.title }}</p>
+            <div class="flex items-center gap-2">
+              <span class="text-gray-600 dark:text-gray-400">
+                {{ task.duration }}</span
+              >
+              <!-- Timer controls -->
+              <div class="flex items-center gap-1">
+                <UButton
+                  v-if="isActiveTask(task.id) && !timerStore.isPaused"
+                  icon="i-heroicons-pause-circle-solid"
+                  color="warning"
+                  variant="ghost"
+                  size="xs"
+                  @click="pauseTask"
+                />
+                <UButton
+                  v-else-if="isActiveTask(task.id) && timerStore.isPaused"
+                  icon="i-heroicons-play-circle-solid"
+                  color="success"
+                  variant="ghost"
+                  size="xs"
+                  @click="startTask(task.id)"
+                />
+                <UButton
+                  v-else
+                  icon="i-heroicons-play-circle-solid"
+                  color="neutral"
+                  variant="ghost"
+                  size="xs"
+                  :disabled="hasActiveTaskOtherThan(task.id)"
+                  @click="startTask(task.id)"
+                />
+                <UButton
+                  icon="i-heroicons-stop-circle-solid"
+                  color="error"
+                  variant="ghost"
+                  size="xs"
+                  :disabled="!isActiveTask(task.id)"
+                  @click="stopTask"
+                />
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
+    </template>
+  </UCard>
 </template>
 
 <script setup lang="ts">
+import type { CardUI } from '#ui/types';
+
 import type { Project } from '@/types/project';
 interface Props {
   project: Project;

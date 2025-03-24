@@ -5,11 +5,13 @@
     @update:open="isOpen = $event"
   >
     <template #body>
-      <div class="space-y-4 p-2">
+      <div class="pb-4 sm:pb-6">
         <p class="text-sm text-gray-600">
           Share data for {{ filteredProjects.length }} filtered projects with
           the following filters:
         </p>
+      </div>
+      <div class="space-y-4">
         <ExportFilterCard />
 
         <UForm
