@@ -11,17 +11,20 @@
               <UFormField label="New Project" class="flex-1">
                 <UInput
                   v-model="state.name"
+                  class="w-full"
                   placeholder="Enter project name"
                   :ui="{
                     base: 'shadow-sm',
-                    icon: { trailing: { pointer: '' } },
                   }"
-                  class="w-48"
                 />
               </UFormField>
 
               <UFormField label="Color">
-                <USelectMenu v-model="state.color" :items="items" class="w-48">
+                <USelectMenu
+                  v-model="state.color"
+                  :items="items"
+                  class="w-full"
+                >
                   <template #leading="{ modelValue, ui }">
                     <UChip
                       v-if="modelValue"
@@ -163,12 +166,12 @@
       <UAlert
         title="Delete Project!"
         :description="`Are you sure you want to delete '${projectToDelete?.name}'? This will remove all tasks associated with this project.`"
-        color="red"
+        color="error"
         variant="outline"
         :actions="[
           {
             label: 'Cancel',
-            color: 'gray',
+            color: 'neutral',
             variant: 'subtle',
             onClick: () => {
               showDeleteConfirm = false;
@@ -176,7 +179,7 @@
           },
           {
             label: 'Delete',
-            color: 'red',
+            color: 'error',
             variant: 'solid',
             onClick: () => {
               handleDelete();
