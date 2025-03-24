@@ -15,7 +15,7 @@
     </div>
     <template #body>
       <div class="space-y-6">
-        <UCard class="bg-neutral-50 border-neutral-100">
+        <UCard class="bg-neutral-50 dark:bg-neutral-800 border-neutral-100">
           <UForm class="space-y-4" :state="state">
             <div class="flex flex-wrap items-start gap-3">
               <UFormField label="Date" class="flex-1 min-w-48">
